@@ -1,12 +1,24 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeScreen from './screens/HomeScreen';
+import TrainingScreen from './screens/TrainingScreen';
+import HistoryScreen from './screens/HistoryScreen';
+import TabNavigator from './navigators/TabNavigator';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <View style={styles.boxy}></View>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen name='Tab' component={TabNavigator} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
+        <Stack.Screen name='Home' component={HomeScreen} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
+        <Stack.Screen name='History' component={HistoryScreen} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
+        <Stack.Screen name='Training' component={TrainingScreen} options={{animation: 'slide_from_bottom'}}></Stack.Screen>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
