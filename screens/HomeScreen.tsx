@@ -12,13 +12,12 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.ScreenContainer}>
-      <StatusBar backgroundColor={COLORS.black} />
+      <StatusBar backgroundColor={COLORS.black} style="light"></StatusBar>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.ScrollViewFlex}
       >
-        {/* App HEADER */}
-        <HeaderBar title="Hello" />
+        <HeaderBar title="Hello, Ibai" />
       </ScrollView>
     </View>
   );
