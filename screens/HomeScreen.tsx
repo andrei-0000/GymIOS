@@ -5,6 +5,7 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { COLORS } from "../theme/theme";
 import { StatusBar } from "expo-status-bar";
 import HeaderBar from "../components/HeaderBar";
+import WeekBar from "../components/WeekBar";
 
 const HomeScreen = () => {
   const ExerciseList = useStore((state: any) => state.ExerciseList);
@@ -18,6 +19,7 @@ const HomeScreen = () => {
         contentContainerStyle={styles.ScrollViewFlex}
       >
         <HeaderBar title="Hello, Ibai" />
+        <WeekBar></WeekBar>
       </ScrollView>
     </View>
   );
