@@ -39,10 +39,13 @@ const HomeScreen = () => {
           contentContainerStyle={styles.FlatListContainer}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => {
-            console.log(item.id);
             return (
               <TouchableOpacity>
-                <WorkoutCard id={item.id} name={item.name}></WorkoutCard>
+                <WorkoutCard
+                  id={item.id}
+                  name={item.name}
+                  exercises={item.exercises}
+                ></WorkoutCard>
               </TouchableOpacity>
             );
           }}
@@ -56,6 +59,7 @@ const styles = StyleSheet.create({
   ScreenContainer: {
     flex: 1,
     backgroundColor: COLORS.black,
+    padding: 3,
   },
   ScrollViewFlex: {
     flexGrow: 1,

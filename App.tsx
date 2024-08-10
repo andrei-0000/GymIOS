@@ -15,6 +15,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   const [loaded, error] = useFonts({
     "eurostile-normal": require("./assets/fonts/eurostile-normal.ttf"),
+    inter: require("./assets/fonts/Inter_24pt-Regular.ttf"),
   });
 
   useEffect(() => {

@@ -8,5 +8,8 @@ export const COLORS = {
   darkGrey: "#212124",
   darkerGrey: "#161618",
   lightGrey: "#818181",
+  cardGrey: "#1E1E1E",
+  inputGrey: "#373737",
   white: "#ffffff",
+  brightGreen: "#34ac19",
 };

@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     overflow: "hidden",
-    backgroundColor: COLORS.seaBlue,
+    backgroundColor: COLORS.brightGreen,
   },
   CurrentWeekIcon: {
     height: 40,
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     overflow: "hidden",
-    borderColor: COLORS.seaBlue,
+    borderColor: COLORS.brightGreen,
     backgroundColor: COLORS.white,
   },
 });

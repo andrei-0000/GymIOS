@@ -1,4 +1,23 @@
-export const ExerciseData = [
+import { ImageSourcePropType } from "react-native";
+
+export interface Exercise {
+  name: string;
+  description?: string;
+  picture: ImageSourcePropType;
+  exercise_group?: string[];
+  type?: string;
+  reps?: number;
+  sets?: number;
+  weight?: number;
+}
+
+export interface Workout {
+  id: string;
+  name: string;
+  exercises?: Exercise[];
+}
+
+export const ExerciseData: Exercise[] = [
   {
     name: "dumbell-curl",
     description: "lorem ipsum",
@@ -31,7 +50,7 @@ export const ExerciseData = [
   },
 ];
 
-export const WorkoutData = [
+export const WorkoutData: Workout[] = [
   {
     id: "W1",
     name: "Pull Day 1",

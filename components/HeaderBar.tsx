@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
     paddingTop: 65,
   },
   HeaderText: {
-    fontFamily: "eurostile-normal", //TODO: Make it retrieve font from theme.ts
-    fontSize: 26,
-    color: "#ffffff",
+    fontFamily: "inter", //TODO: Make it retrieve font from theme.ts
+    fontSize: 17,
+    color: COLORS.white,
   },
 });
