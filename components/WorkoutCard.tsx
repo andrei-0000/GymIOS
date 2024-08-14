@@ -14,7 +14,7 @@ import { Exercise } from "../data/data";
 import { useState } from "react";
 
 const CARD_WIDTH = Dimensions.get("window").width * 0.95;
-const CARD_HEIGHT = Dimensions.get("window").height * 0.55;
+const CARD_HEIGHT = Dimensions.get("window").height * 0.5;
 
 export interface WorkoutProps {
   id?: string;
@@ -121,6 +121,8 @@ const styles = StyleSheet.create({
     height: CARD_HEIGHT,
     borderRadius: 20,
     padding: 0,
+    flexDirection: "column",
+    justifyContent: "flex-start",
     overflow: "hidden", // Ensure content stays within the card
   },
   ScrollViewContainer: {
@@ -145,7 +147,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingTop: 0,
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: 0,
   },
   NormalTextStyle: {
     fontFamily: "inter",
