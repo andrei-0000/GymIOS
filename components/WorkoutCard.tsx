@@ -55,7 +55,9 @@ function WorkoutCard({ id, name, exercises }: WorkoutProps) {
               <ImageBackground source={source} style={styles.CardImageStyle}>
                 <LinearGradient
                   colors={["#00000000", COLORS.cardGrey]}
-                  style={{ height: "100%", width: "100%" }}
+                  start={{ x: 0.5, y: 0.3 }}
+                  end={{ x: 0.5, y: 1 }}
+                  style={{ height: "100%", width: "100%", opacity: 0.9 }}
                 />
               </ImageBackground>
             </View>
@@ -124,10 +126,11 @@ const styles = StyleSheet.create({
   ScrollViewContainer: {
     flexDirection: "row",
     paddingHorizontal: 0,
+    marginBottom: 0,
   },
   ImageWrapper: {
-    width: CARD_WIDTH * 0.8, // Ensuring each image is smaller than the card width
-    height: CARD_HEIGHT * 0.4,
+    width: CARD_WIDTH * 0.7, // Ensuring each image is smaller than the card width
+    height: CARD_HEIGHT * 0.33,
     marginRight: 10, // Adds spacing between images
   },
   CardImageStyle: {
@@ -140,12 +143,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: COLORS.white,
     paddingHorizontal: 15,
-    paddingTop: 10,
+    paddingTop: 0,
     fontWeight: "bold",
+    marginBottom: 10,
   },
   NormalTextStyle: {
     fontFamily: "inter",
-    fontSize: 13,
+    fontSize: 14,
     color: COLORS.white,
     fontWeight: "400",
   },
@@ -180,7 +184,7 @@ const styles = StyleSheet.create({
   exerciseName: {
     flex: 1,
     fontFamily: "inter",
-    fontSize: 13,
+    fontSize: 14,
     color: COLORS.white,
     fontWeight: "400",
   },
