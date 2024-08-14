@@ -23,7 +23,7 @@ const WeekDay = ({ status, day }: WeekDayProps) => {
     case "done":
       return (
         <View style={styles.DoneWeekIcon}>
-          <Ionicons name="checkmark" size={20} color="black" />
+          <Ionicons name="checkmark" size={30} color="black" />
         </View>
       );
     case "current":

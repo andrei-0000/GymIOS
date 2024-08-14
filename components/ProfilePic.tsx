@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   ImageContainer: {
     height: 80,
     width: 80,
-    borderRadius: 40,
+    borderRadius: 45,
     borderWidth: 4,
     borderColor: COLORS.brightGreen,
     alignItems: "center",

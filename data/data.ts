@@ -19,7 +19,7 @@ export interface Workout {
 
 export const ExerciseData: Exercise[] = [
   {
-    name: "dumbell-curl",
+    name: "Dumbbell Curl",
     description: "lorem ipsum",
     picture: require("../assets/exercises/dumbell-curl.png"),
     exercise_group: ["biceps", "arms"],
@@ -29,7 +29,7 @@ export const ExerciseData: Exercise[] = [
     weight: 0,
   },
   {
-    name: "barbell-curl",
+    name: "Barbell Curl",
     description: "lorem ipsum",
     picture: require("../assets/exercises/barbell-curl.png"),
     exercise_group: ["biceps", "arms"],

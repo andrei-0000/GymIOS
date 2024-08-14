@@ -1,5 +1,6 @@
 export const COLORS = {
-  seaBlue: "#177364",
+  seaBlue: "#7EFFF0",
+
   lightBlue: "#1961b2",
   skyBlue: "#c8daf2",
   lakeBlue: "#95bfe7",
@@ -11,5 +12,5 @@ export const COLORS = {
   cardGrey: "#1E1E1E",
   inputGrey: "#373737",
   white: "#ffffff",
-  brightGreen: "#34ac19",
+  brightGreen: "#78FFBE",
 };

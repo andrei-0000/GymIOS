@@ -1,8 +1,7 @@
 import {
   Dimensions,
-  FlatList,
-  ImageBackground,
   ScrollView,
+  ImageBackground,
   StyleSheet,
   Text,
   TextInput,
@@ -11,69 +10,103 @@ import {
 import React from "react";
 import { COLORS } from "../theme/theme";
 import { LinearGradient } from "expo-linear-gradient";
-import { Exercise, Workout } from "../data/data";
+import { Exercise } from "../data/data";
+import { useState } from "react";
 
-const CARD_WIDTH = Dimensions.get("window").width * 0.86;
-const CARD_HEIGHT = Dimensions.get("window").height * 0.5;
+const CARD_WIDTH = Dimensions.get("window").width * 0.95;
+const CARD_HEIGHT = Dimensions.get("window").height * 0.55;
 
 export interface WorkoutProps {
   id?: string;
   name?: string;
-  exercises?: Exercise[];
+  exercises: Exercise[];
 }
 
 function WorkoutCard({ id, name, exercises }: WorkoutProps) {
-  console.log(exercises);
-  const [reps, onChangeReps] = React.useState("0");
+  const [exerciseData, setExerciseData] = useState(
+    exercises.map((exercise) => ({
+      name: exercise.name,
+      reps: "",
+      sets: "",
+      kgs: "",
+    }))
+  );
+
+  const handleInputChange = (name: string, field: string, value: string) => {
+    setExerciseData((prevData) =>
+      prevData.map((exercise) =>
+        exercise.name === name ? { ...exercise, [field]: value } : exercise
+      )
+    );
+  };
+
+  const pictureSources = exercises.map((exercise) => exercise.picture);
+
   return (
     <LinearGradient colors={["#00000000", "#000000"]}>
       <View style={styles.WorkoutCardContainer}>
-        <ImageBackground
-          source={exercises?.at(0)?.picture}
-          style={styles.CardImageStyle}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.ScrollViewContainer}
         >
-          <LinearGradient
-            colors={["#00000000", COLORS.darkGrey]}
-            style={{ height: "100%", width: "100%" }}
-          ></LinearGradient>
-        </ImageBackground>
+          {pictureSources.map((source, index) => (
+            <View style={styles.ImageWrapper} key={index}>
+              <ImageBackground source={source} style={styles.CardImageStyle}>
+                <LinearGradient
+                  colors={["#00000000", COLORS.cardGrey]}
+                  style={{ height: "100%", width: "100%" }}
+                />
+              </ImageBackground>
+            </View>
+          ))}
+        </ScrollView>
         <Text style={styles.HeaderTextStyle}>{name}</Text>
-        <FlatList
+        <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.ExerciseListStyle}
-          data={exercises}
-          renderItem={({ item }) => {
+        >
+          {exercises.map((item, index) => {
+            const exercise = exerciseData.find((ex) => ex.name === item.name);
             return (
-              <>
-                <ScrollView horizontal style={styles.ScrollViewFlex}>
-                  <Text style={styles.NormalTextStyle}>{item.name}</Text>
-                  <TextInput
-                    style={styles.input}
-                    onChangeText={onChangeReps}
-                    value={reps}
-                    keyboardType="numeric"
-                  />
-                  <Text style={styles.NormalTextStyle}>reps</Text>
-                  <TextInput
-                    style={styles.input}
-                    onChangeText={onChangeReps}
-                    value={reps}
-                    keyboardType="numeric"
-                  />
-                  <Text style={styles.NormalTextStyle}>sets</Text>
-                  <TextInput
-                    style={styles.input}
-                    onChangeText={onChangeReps}
-                    value={reps}
-                    keyboardType="numeric"
-                  />
-                  <Text style={styles.NormalTextStyle}>kgs</Text>
-                </ScrollView>
-                <Text style={styles.SmallTextStyle}>kgs</Text>
-              </>
+              <View key={index}>
+                <View style={styles.exerciseContainer}>
+                  <Text style={styles.exerciseName}>{item.name}</Text>
+                  <View style={styles.fieldsContainer}>
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={(value) =>
+                        handleInputChange(item.name, "reps", value)
+                      }
+                      value={exercise?.reps}
+                      keyboardType="numeric"
+                    />
+                    <Text style={styles.NormalTextStyle}>reps</Text>
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={(value) =>
+                        handleInputChange(item.name, "sets", value)
+                      }
+                      value={exercise?.sets}
+                      keyboardType="numeric"
+                    />
+                    <Text style={styles.NormalTextStyle}>sets</Text>
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={(value) =>
+                        handleInputChange(item.name, "kgs", value)
+                      }
+                      value={exercise?.kgs}
+                      keyboardType="numeric"
+                    />
+                    <Text style={styles.NormalTextStyle}>kgs</Text>
+                  </View>
+                </View>
+                <Text style={styles.SmallTextStyle}>Thursday, June 26th</Text>
+              </View>
             );
-          }}
-        ></FlatList>
+          })}
+        </ScrollView>
       </View>
     </LinearGradient>
   );
@@ -86,15 +119,19 @@ const styles = StyleSheet.create({
     height: CARD_HEIGHT,
     borderRadius: 20,
     padding: 0,
+    overflow: "hidden", // Ensure content stays within the card
   },
-  GradientStyle: {
-    height: "100%",
-    width: "100%",
+  ScrollViewContainer: {
+    flexDirection: "row",
+    paddingHorizontal: 0,
+  },
+  ImageWrapper: {
+    width: CARD_WIDTH * 0.8, // Ensuring each image is smaller than the card width
+    height: CARD_HEIGHT * 0.4,
+    marginRight: 10, // Adds spacing between images
   },
   CardImageStyle: {
-    width: CARD_WIDTH * 1,
-    height: CARD_HEIGHT * 0.4,
-    borderWidth: 0,
+    flex: 1,
     borderRadius: 20,
     overflow: "hidden",
   },
@@ -102,14 +139,15 @@ const styles = StyleSheet.create({
     fontFamily: "inter",
     fontSize: 20,
     color: COLORS.white,
-    padding: 18,
+    paddingHorizontal: 15,
+    paddingTop: 10,
     fontWeight: "bold",
   },
   NormalTextStyle: {
     fontFamily: "inter",
-    fontSize: 16,
+    fontSize: 13,
     color: COLORS.white,
-    fontWeight: "condensed",
+    fontWeight: "400",
   },
   SmallTextStyle: {
     fontFamily: "inter",
@@ -117,27 +155,40 @@ const styles = StyleSheet.create({
     color: COLORS.seaBlue,
   },
   ExerciseListStyle: {
-    gap: 20,
     paddingVertical: 18,
-    paddingHorizontal: 18,
+    paddingHorizontal: 8,
   },
   input: {
-    height: 22,
-    width: 42,
-    margin: 0,
-    borderWidth: 0,
+    height: 37,
+    width: 48,
     borderRadius: 20,
-    paddingHorizontal: 15,
+    paddingHorizontal: 17,
     backgroundColor: COLORS.inputGrey,
-    marginHorizontal: 10,
-    alignItems: "center",
+    marginHorizontal: 6,
     fontFamily: "inter",
     fontSize: 16,
     color: COLORS.white,
-    fontWeight: "condensed",
+    fontWeight: "400",
   },
-  ScrollViewFlex: {
-    flexGrow: 1,
+  exerciseContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    paddingVertical: 18,
+  },
+  exerciseName: {
+    flex: 1,
+    fontFamily: "inter",
+    fontSize: 13,
+    color: COLORS.white,
+    fontWeight: "400",
+  },
+  fieldsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 3,
+    justifyContent: "space-around",
   },
 });
 

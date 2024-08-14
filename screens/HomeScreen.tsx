@@ -33,20 +33,19 @@ const HomeScreen = () => {
         <HeaderBar title="Hello, Ibai" />
         <WeekBar></WeekBar>
         <FlatList
-          horizontal
-          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
           data={workoutList}
           contentContainerStyle={styles.FlatListContainer}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => {
             return (
-              <TouchableOpacity>
-                <WorkoutCard
-                  id={item.id}
-                  name={item.name}
-                  exercises={item.exercises}
-                ></WorkoutCard>
-              </TouchableOpacity>
+              // <TouchableOpacity>
+              <WorkoutCard
+                id={item.id}
+                name={item.name}
+                exercises={item.exercises}
+              ></WorkoutCard>
+              //</ScrollView> </TouchableOpacity>
             );
           }}
         />
@@ -65,9 +64,9 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   FlatListContainer: {
-    gap: 20,
+    gap: 9,
     paddingVertical: 20,
-    paddingHorizontal: 20,
+    paddingHorizontal: 0,
   },
 });
 
