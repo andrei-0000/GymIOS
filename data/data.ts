@@ -54,11 +54,11 @@ export const WorkoutData: Workout[] = [
   {
     id: "W1",
     name: "Pull Day 1",
-    exercises: [ExerciseData[0], ExerciseData[1]],
+    exercises: [ExerciseData[0], ExerciseData[1], ExerciseData[2]],
   },
   {
     id: "W2",
     name: "Push Day 1",
-    exercises: [ExerciseData[2], ExerciseData[1]],
+    exercises: [ExerciseData[2], ExerciseData[1], ExerciseData[0]],
   },
 ];
