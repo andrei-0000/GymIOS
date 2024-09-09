@@ -14,7 +14,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Exercise } from "../data/data";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-const CARD_WIDTH = Dimensions.get("window").width * 0.95;
+const CARD_WIDTH = Dimensions.get("window").width * 0.98;
 const COLLAPSED_HEIGHT = Dimensions.get("window").height * 0.5; // Adjusted height to show only 2 exercises
 const EXPANDED_HEIGHT = Dimensions.get("window").height * 0.7;
 
@@ -51,91 +51,103 @@ function WorkoutCard({ id, name, exercises }: WorkoutProps) {
   const pictureSources = exercises.map((exercise) => exercise.picture);
 
   return (
-    <TouchableOpacity onPress={toggleExpansion}>
-      <LinearGradient colors={["#00000000", "#000000"]}>
-        <View
-          style={[
-            styles.WorkoutCardContainer,
-            {
-              height: isExpanded ? EXPANDED_HEIGHT : COLLAPSED_HEIGHT,
-              overflow: isExpanded ? "visible" : "hidden",
-            },
-          ]}
+    <LinearGradient colors={["#00000000", "#000000"]}>
+      <View
+        style={[
+          styles.WorkoutCardContainer,
+          {
+            height: isExpanded ? EXPANDED_HEIGHT : COLLAPSED_HEIGHT,
+            overflow: isExpanded ? "visible" : "hidden",
+          },
+        ]}
+      >
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.ScrollViewContainer}
         >
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.ScrollViewContainer}
-          >
-            {pictureSources.map((source, index) => (
-              <View
-                style={[
-                  styles.ImageWrapper,
-                  {
-                    height: isExpanded
-                      ? EXPANDED_HEIGHT * 0.33
-                      : COLLAPSED_HEIGHT * 0.33,
-                  },
-                ]}
-                key={index}
-              >
-                <ImageBackground source={source} style={styles.CardImageStyle}>
-                  <LinearGradient
-                    colors={["#00000000", COLORS.cardGrey]}
-                    start={{ x: 0.5, y: 0.3 }}
-                    end={{ x: 0.5, y: 1 }}
-                    style={{ height: "100%", width: "100%", opacity: 0.9 }}
-                  />
-                </ImageBackground>
+          {pictureSources.map((source, index) => (
+            <View
+              style={[
+                styles.ImageWrapper,
+                {
+                  height: isExpanded
+                    ? EXPANDED_HEIGHT * 0.33
+                    : COLLAPSED_HEIGHT * 0.33,
+                },
+              ]}
+              key={index}
+            >
+              <ImageBackground source={source} style={styles.CardImageStyle}>
+                <LinearGradient
+                  colors={["#00000000", COLORS.cardGrey]}
+                  start={{ x: 0.5, y: 0.3 }}
+                  end={{ x: 0.5, y: 1 }}
+                  style={{ height: "100%", width: "100%", opacity: 0.9 }}
+                />
+              </ImageBackground>
+            </View>
+          ))}
+        </ScrollView>
+        <View style={styles.HeaderContainer}>
+          <Text style={[styles.HeaderTextStyle, { flex: 4 }]}>{name}</Text>
+          <View style={styles.ConfirmButtonsStyle}>
+            <TouchableOpacity>
+              <View style={[styles.DoneWeekIcon, { flex: 2 }]}>
+                <Ionicons name="checkmark" size={20} color="black" />
               </View>
-            ))}
-          </ScrollView>
-          <Text style={styles.HeaderTextStyle}>{name}</Text>
-          <View style={styles.ExerciseListStyle}>
-            {exercises.map((item, index) => {
-              const exercise = exerciseData.find((ex) => ex.name === item.name);
-              return (
-                (isExpanded || index < 2) && (
-                  <View key={index}>
-                    <View style={styles.exerciseContainer}>
-                      <Text style={styles.exerciseName}>{item.name}</Text>
-                      <View style={styles.fieldsContainer}>
-                        <TextInput
-                          style={styles.input}
-                          onChangeText={(value) =>
-                            handleInputChange(item.name, "reps", value)
-                          }
-                          value={exercise?.reps}
-                          keyboardType="numeric"
-                        />
-                        <Text style={styles.NormalTextStyle}>reps</Text>
-                        <TextInput
-                          style={styles.input}
-                          onChangeText={(value) =>
-                            handleInputChange(item.name, "sets", value)
-                          }
-                          value={exercise?.sets}
-                          keyboardType="numeric"
-                        />
-                        <Text style={styles.NormalTextStyle}>sets</Text>
-                        <TextInput
-                          style={styles.input}
-                          onChangeText={(value) =>
-                            handleInputChange(item.name, "kgs", value)
-                          }
-                          value={exercise?.kgs}
-                          keyboardType="numeric"
-                        />
-                        <Text style={styles.NormalTextStyle}>kgs</Text>
-                      </View>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <View style={[styles.DoneWeekIcon, { flex: 2 }]}>
+                <Ionicons name="close" size={20} color="black" />
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.ExerciseListStyle}>
+          {exercises.map((item, index) => {
+            const exercise = exerciseData.find((ex) => ex.name === item.name);
+            return (
+              (isExpanded || index < 2) && (
+                <View key={index}>
+                  <View style={styles.exerciseContainer}>
+                    <Text style={styles.exerciseName}>{item.name}</Text>
+                    <View style={styles.fieldsContainer}>
+                      <TextInput
+                        style={styles.input}
+                        onChangeText={(value) =>
+                          handleInputChange(item.name, "reps", value)
+                        }
+                        value={exercise?.reps}
+                        keyboardType="numeric"
+                      />
+                      <Text style={styles.NormalTextStyle}>reps</Text>
+                      <TextInput
+                        style={styles.input}
+                        onChangeText={(value) =>
+                          handleInputChange(item.name, "sets", value)
+                        }
+                        value={exercise?.sets}
+                        keyboardType="numeric"
+                      />
+                      <Text style={styles.NormalTextStyle}>sets</Text>
+                      <TextInput
+                        style={styles.input}
+                        onChangeText={(value) =>
+                          handleInputChange(item.name, "kgs", value)
+                        }
+                        value={exercise?.kgs}
+                        keyboardType="numeric"
+                      />
+                      <Text style={styles.NormalTextStyle}>kgs</Text>
                     </View>
-                    <Text style={styles.SmallTextStyle}>
-                      Thursday, June 26th
-                    </Text>
                   </View>
-                )
-              );
-            })}
+                  <Text style={styles.SmallTextStyle}>Thursday, June 26th</Text>
+                </View>
+              )
+            );
+          })}
+          <TouchableOpacity onPress={toggleExpansion}>
             {!isExpanded && (
               <View style={styles.MoreContainer}>
                 <Text style={styles.MoreTextStyle}>
@@ -157,10 +169,10 @@ function WorkoutCard({ id, name, exercises }: WorkoutProps) {
                 ></Ionicons>
               </View>
             )}
-          </View>
+          </TouchableOpacity>
         </View>
-      </LinearGradient>
-    </TouchableOpacity>
+      </View>
+    </LinearGradient>
   );
 }
 
@@ -178,6 +190,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: 0,
     marginBottom: 0,
+  },
+  HeaderContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: 3,
+    paddingRight: 10,
+    margin: 0,
   },
   ImageWrapper: {
     width: CARD_WIDTH * 0.7, // Ensuring each image is smaller than the card width
@@ -256,6 +276,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 3,
     justifyContent: "space-around",
+  },
+  DoneWeekIcon: {
+    height: 30,
+    width: 50,
+    borderRadius: 30,
+    borderWidth: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+    backgroundColor: COLORS.white,
+  },
+  ConfirmButtonsStyle: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flex: 2,
+    padding: 0,
   },
 });
 
