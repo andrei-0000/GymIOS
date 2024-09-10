@@ -11,8 +11,9 @@ import {
 import React, { useState } from "react";
 import { COLORS } from "../theme/theme";
 import { LinearGradient } from "expo-linear-gradient";
-import { Exercise } from "../data/data";
+import { Exercise, ExerciseData, Workout } from "../data/data";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useStore } from "../store/store";
 
 const CARD_WIDTH = Dimensions.get("window").width * 0.98;
 const COLLAPSED_HEIGHT = Dimensions.get("window").height * 0.5; // Adjusted height to show only 2 exercises
@@ -28,13 +29,16 @@ function WorkoutCard({ id, name, exercises }: WorkoutProps) {
   const [exerciseData, setExerciseData] = useState(
     exercises.map((exercise) => ({
       name: exercise.name,
-      reps: "",
-      sets: "",
-      kgs: "",
+      reps: 0,
+      sets: 0,
+      kgs: 0,
     }))
   );
 
-  const [isExpanded, setIsExpanded] = useState(false); // State to track if the card is expanded
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const addUserWorkout = useStore((state: any) => state.addUserWorkout);
+  const getUserWorkouts = useStore((state: any) => state.UserWorkouts);
 
   const handleInputChange = (name: string, field: string, value: string) => {
     setExerciseData((prevData) =>
@@ -49,6 +53,20 @@ function WorkoutCard({ id, name, exercises }: WorkoutProps) {
   };
 
   const pictureSources = exercises.map((exercise) => exercise.picture);
+
+  const addWorkoutHandler = () => {
+    return () => {
+      let userWorkout: Workout;
+      userWorkout = {
+        id: "W2",
+        name: "Pull Day 1",
+        exercises: exerciseData,
+        date: new Date(),
+      };
+      addUserWorkout(userWorkout);
+      console.log(getUserWorkouts);
+    };
+  };
 
   return (
     <LinearGradient colors={["#00000000", "#000000"]}>
@@ -92,7 +110,7 @@ function WorkoutCard({ id, name, exercises }: WorkoutProps) {
         <View style={styles.HeaderContainer}>
           <Text style={[styles.HeaderTextStyle, { flex: 4 }]}>{name}</Text>
           <View style={styles.ConfirmButtonsStyle}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={addWorkoutHandler()}>
               <View style={[styles.DoneWeekIcon, { flex: 2 }]}>
                 <Ionicons name="checkmark" size={20} color="black" />
               </View>
@@ -118,7 +136,7 @@ function WorkoutCard({ id, name, exercises }: WorkoutProps) {
                         onChangeText={(value) =>
                           handleInputChange(item.name, "reps", value)
                         }
-                        value={exercise?.reps}
+                        value={exercise?.reps.toString()}
                         keyboardType="numeric"
                       />
                       <Text style={styles.NormalTextStyle}>reps</Text>
@@ -127,7 +145,7 @@ function WorkoutCard({ id, name, exercises }: WorkoutProps) {
                         onChangeText={(value) =>
                           handleInputChange(item.name, "sets", value)
                         }
-                        value={exercise?.sets}
+                        value={exercise?.sets.toString()}
                         keyboardType="numeric"
                       />
                       <Text style={styles.NormalTextStyle}>sets</Text>
@@ -136,7 +154,7 @@ function WorkoutCard({ id, name, exercises }: WorkoutProps) {
                         onChangeText={(value) =>
                           handleInputChange(item.name, "kgs", value)
                         }
-                        value={exercise?.kgs}
+                        value={exercise?.kgs.toString()}
                         keyboardType="numeric"
                       />
                       <Text style={styles.NormalTextStyle}>kgs</Text>

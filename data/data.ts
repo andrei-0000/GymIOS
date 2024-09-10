@@ -3,7 +3,7 @@ import { ImageSourcePropType } from "react-native";
 export interface Exercise {
   name: string;
   description?: string;
-  picture: ImageSourcePropType;
+  picture?: ImageSourcePropType;
   exercise_group?: string[];
   type?: string;
   reps?: number;
@@ -15,6 +15,7 @@ export interface Workout {
   id: string;
   name: string;
   exercises?: Exercise[];
+  date?: Date;
 }
 
 export const ExerciseData: Exercise[] = [

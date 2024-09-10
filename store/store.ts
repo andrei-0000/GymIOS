@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { produce } from "immer";
 import { persist, createJSONStorage } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ExerciseData, WorkoutData } from "../data/data";
+import { ExerciseData, Workout, WorkoutData } from "../data/data";
 
 export const useStore = create(
   persist(
@@ -10,12 +10,18 @@ export const useStore = create(
       ExerciseList: ExerciseData,
       WorkoutList: WorkoutData,
       FavoritesList: [],
-      UserExerciseList: [],
+      UserWorkouts: [],
       ExercisesHistoryList: [],
+      addUserWorkout: (userWorkout: Workout) =>
+        set(
+          produce((state) => {
+            state.UserWorkouts.push(userWorkout);
+          })
+        ),
     }),
     {
       name: "gym-ios",
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => AsyncStorage),
     }
   )
 );
