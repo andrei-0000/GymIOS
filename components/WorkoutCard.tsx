@@ -154,7 +154,7 @@ function WorkoutCard({ id, name, exercises }: WorkoutProps) {
                       <TextInput
                         style={styles.input}
                         onChangeText={(value) =>
-                          handleInputChange(item.name, "kgs", value)
+                          handleInputChange(item.name, "weight", value)
                         }
                         value={exercise?.weight.toString()}
                         keyboardType="numeric"
