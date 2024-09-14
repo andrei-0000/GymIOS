@@ -17,7 +17,7 @@ import { useStore } from "../store/store";
 
 const CARD_WIDTH = Dimensions.get("window").width * 0.98;
 const COLLAPSED_HEIGHT = Dimensions.get("window").height * 0.5; // Adjusted height to show only 2 exercises
-const EXPANDED_HEIGHT = Dimensions.get("window").height * 0.7;
+const EXPANDED_HEIGHT = Dimensions.get("window").height * 0.6;
 
 export interface WorkoutProps {
   id?: string;
@@ -29,16 +29,19 @@ function WorkoutCard({ id, name, exercises }: WorkoutProps) {
   const [exerciseData, setExerciseData] = useState(
     exercises.map((exercise) => ({
       name: exercise.name,
-      reps: 0,
-      sets: 0,
-      kgs: 0,
+      description: exercise.description,
+      picture: exercise.picture,
+      exercise_group: exercise.exercise_group,
+      type: exercise.type,
+      reps: exercise.reps,
+      sets: exercise.sets,
+      weight: exercise.weight,
     }))
   );
 
   const [isExpanded, setIsExpanded] = useState(false);
 
   const addUserWorkout = useStore((state: any) => state.addUserWorkout);
-  const getUserWorkouts = useStore((state: any) => state.UserWorkouts);
 
   const handleInputChange = (name: string, field: string, value: string) => {
     setExerciseData((prevData) =>
@@ -58,13 +61,12 @@ function WorkoutCard({ id, name, exercises }: WorkoutProps) {
     return () => {
       let userWorkout: Workout;
       userWorkout = {
-        id: "W2",
-        name: "Pull Day 1",
+        id: id!,
+        name: name!,
         exercises: exerciseData,
         date: new Date(),
       };
       addUserWorkout(userWorkout);
-      console.log(getUserWorkouts);
     };
   };
 
@@ -136,7 +138,7 @@ function WorkoutCard({ id, name, exercises }: WorkoutProps) {
                         onChangeText={(value) =>
                           handleInputChange(item.name, "reps", value)
                         }
-                        value={exercise?.reps.toString()}
+                        value={exercise!.reps.toString()}
                         keyboardType="numeric"
                       />
                       <Text style={styles.NormalTextStyle}>reps</Text>
@@ -154,7 +156,7 @@ function WorkoutCard({ id, name, exercises }: WorkoutProps) {
                         onChangeText={(value) =>
                           handleInputChange(item.name, "kgs", value)
                         }
-                        value={exercise?.kgs.toString()}
+                        value={exercise?.weight.toString()}
                         keyboardType="numeric"
                       />
                       <Text style={styles.NormalTextStyle}>kgs</Text>

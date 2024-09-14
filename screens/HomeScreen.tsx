@@ -1,11 +1,4 @@
-import {
-  FlatList,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { FlatList, ScrollView, StyleSheet, View } from "react-native";
 import React from "react";
 import { useStore } from "../store/store";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
@@ -13,15 +6,27 @@ import { COLORS } from "../theme/theme";
 import { StatusBar } from "expo-status-bar";
 import HeaderBar from "../components/HeaderBar";
 import WeekBar from "../components/WeekBar";
-import { WorkoutData } from "../data/data";
 import WorkoutCard from "../components/WorkoutCard";
 
 const HomeScreen = () => {
-  const ExerciseList = useStore((state: any) => state.ExerciseList);
-  const workoutList = useStore((state: any) => state.WorkoutList);
+  const workoutList = useStore((state: any) => state.Workouts2);
+  const userWorkouts = useStore((state: any) => {
+    const workoutList = state.UserWorkouts;
+
+    const lastW1Workout = workoutList
+      .filter((workout: any) => workout.id === "W1")
+      .slice(-1)[0];
+
+    const lastW2Workout = workoutList
+      .filter((workout: any) => workout.id === "W2")
+      .slice(-1)[0];
+
+    return [lastW1Workout, lastW2Workout].filter(Boolean);
+  });
   const tabBarHeight = useBottomTabBarHeight();
 
-  console.log(workoutList);
+  console.log("user workout 1", userWorkouts.slice(-2)[0]);
+  console.log("user workout 2", userWorkouts.slice(-2)[1]);
 
   return (
     <View style={styles.ScreenContainer}>
@@ -34,8 +39,11 @@ const HomeScreen = () => {
         <WeekBar></WeekBar>
         <FlatList
           showsHorizontalScrollIndicator={false}
-          data={workoutList}
-          contentContainerStyle={styles.FlatListContainer}
+          data={userWorkouts}
+          contentContainerStyle={[
+            styles.FlatListContainer,
+            { marginBottom: tabBarHeight },
+          ]}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => {
             return (

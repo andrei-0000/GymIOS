@@ -6,9 +6,9 @@ export interface Exercise {
   picture?: ImageSourcePropType;
   exercise_group?: string[];
   type?: string;
-  reps?: number;
-  sets?: number;
-  weight?: number;
+  reps: number;
+  sets: number;
+  weight: number;
 }
 
 export interface Workout {
@@ -51,7 +51,7 @@ export const ExerciseData: Exercise[] = [
   },
 ];
 
-export const WorkoutData: Workout[] = [
+export const WorkoutData2: Workout[] = [
   {
     id: "W1",
     name: "Pull Day 1",

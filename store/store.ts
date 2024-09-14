@@ -2,15 +2,16 @@ import { create } from "zustand";
 import { produce } from "immer";
 import { persist, createJSONStorage } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ExerciseData, Workout, WorkoutData } from "../data/data";
+import { ExerciseData, Workout, WorkoutData2 } from "../data/data";
 
 export const useStore = create(
   persist(
     (set, get) => ({
       ExerciseList: ExerciseData,
-      WorkoutList: WorkoutData,
+      WorkoutList: WorkoutData2,
+      Workouts2: WorkoutData2,
       FavoritesList: [],
-      UserWorkouts: [],
+      UserWorkouts: WorkoutData2,
       ExercisesHistoryList: [],
       addUserWorkout: (userWorkout: Workout) =>
         set(
