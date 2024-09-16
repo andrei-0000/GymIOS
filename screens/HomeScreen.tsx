@@ -52,6 +52,7 @@ const HomeScreen = () => {
                 id={item.id}
                 name={item.name}
                 exercises={item.exercises}
+                date={item.date}
               ></WorkoutCard>
               //</ScrollView> </TouchableOpacity>
             );

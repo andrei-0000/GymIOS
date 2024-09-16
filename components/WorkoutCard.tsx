@@ -22,10 +22,11 @@ const EXPANDED_HEIGHT = Dimensions.get("window").height * 0.6;
 export interface WorkoutProps {
   id?: string;
   name?: string;
+  date?: Date;
   exercises: Exercise[];
 }
 
-function WorkoutCard({ id, name, exercises }: WorkoutProps) {
+function WorkoutCard({ id, name, date, exercises }: WorkoutProps) {
   const [exerciseData, setExerciseData] = useState(
     exercises.map((exercise) => ({
       name: exercise.name,
@@ -43,6 +44,12 @@ function WorkoutCard({ id, name, exercises }: WorkoutProps) {
 
   const addUserWorkout = useStore((state: any) => state.addUserWorkout);
 
+  const pictureSources = exercises.map((exercise) => exercise.picture);
+
+  const toggleExpansion = () => {
+    setIsExpanded(!isExpanded);
+  };
+
   const handleInputChange = (name: string, field: string, value: string) => {
     setExerciseData((prevData) =>
       prevData.map((exercise) =>
@@ -50,12 +57,6 @@ function WorkoutCard({ id, name, exercises }: WorkoutProps) {
       )
     );
   };
-
-  const toggleExpansion = () => {
-    setIsExpanded(!isExpanded);
-  };
-
-  const pictureSources = exercises.map((exercise) => exercise.picture);
 
   const addWorkoutHandler = () => {
     return () => {
@@ -134,6 +135,7 @@ function WorkoutCard({ id, name, exercises }: WorkoutProps) {
                     <Text style={styles.exerciseName}>{item.name}</Text>
                     <View style={styles.fieldsContainer}>
                       <TextInput
+                        textAlign="center"
                         style={styles.input}
                         onChangeText={(value) =>
                           handleInputChange(item.name, "reps", value)
@@ -143,6 +145,7 @@ function WorkoutCard({ id, name, exercises }: WorkoutProps) {
                       />
                       <Text style={styles.NormalTextStyle}>reps</Text>
                       <TextInput
+                        textAlign="center"
                         style={styles.input}
                         onChangeText={(value) =>
                           handleInputChange(item.name, "sets", value)
@@ -152,6 +155,7 @@ function WorkoutCard({ id, name, exercises }: WorkoutProps) {
                       />
                       <Text style={styles.NormalTextStyle}>sets</Text>
                       <TextInput
+                        textAlign="center"
                         style={styles.input}
                         onChangeText={(value) =>
                           handleInputChange(item.name, "weight", value)
@@ -162,7 +166,7 @@ function WorkoutCard({ id, name, exercises }: WorkoutProps) {
                       <Text style={styles.NormalTextStyle}>kgs</Text>
                     </View>
                   </View>
-                  <Text style={styles.SmallTextStyle}>Thursday, June 26th</Text>
+                  <Text style={styles.SmallTextStyle}>{date?.toString()}</Text>
                 </View>
               )
             );
@@ -267,13 +271,13 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 37,
-    width: 48,
+    width: 55,
     borderRadius: 20,
-    paddingHorizontal: 17,
+    paddingHorizontal: 10,
     backgroundColor: COLORS.inputGrey,
-    marginHorizontal: 6,
+    marginHorizontal: 0,
     fontFamily: "inter",
-    fontSize: 16,
+    fontSize: 14,
     color: COLORS.white,
     fontWeight: "400",
   },
