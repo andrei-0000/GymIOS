@@ -42,7 +42,7 @@ const HomeScreen = () => {
           data={userWorkouts}
           contentContainerStyle={[
             styles.FlatListContainer,
-            { marginBottom: tabBarHeight },
+            { marginBottom: tabBarHeight * 1.5 },
           ]}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => {
