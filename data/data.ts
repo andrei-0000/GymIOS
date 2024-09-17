@@ -40,7 +40,7 @@ export const ExerciseData: Exercise[] = [
     weight: 0,
   },
   {
-    name: "shoulder-dumbell-press",
+    name: "Shoulder Dumbell Press",
     description: "lorem ipsum",
     picture: require("../assets/exercises/shoulder-dumbell-press.png"),
     exercise_group: ["shoulders", "arms"],

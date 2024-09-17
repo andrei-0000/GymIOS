@@ -7,13 +7,16 @@ import {
   TextInput,
   View,
   TouchableOpacity,
+  Modal,
+  Button,
 } from "react-native";
 import React, { useState } from "react";
 import { COLORS } from "../theme/theme";
 import { LinearGradient } from "expo-linear-gradient";
-import { Exercise, ExerciseData, Workout } from "../data/data";
+import { Exercise, Workout } from "../data/data";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useStore } from "../store/store";
+import InputExercise from "./InputExercise";
 
 const CARD_WIDTH = Dimensions.get("window").width * 0.98;
 const COLLAPSED_HEIGHT = Dimensions.get("window").height * 0.5; // Adjusted height to show only 2 exercises
@@ -41,6 +44,10 @@ function WorkoutCard({ id, name, date, exercises }: WorkoutProps) {
   );
 
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
 
   const addUserWorkout = useStore((state: any) => state.addUserWorkout);
 
@@ -124,6 +131,11 @@ function WorkoutCard({ id, name, date, exercises }: WorkoutProps) {
               </View>
             </TouchableOpacity>
           </View>
+          <TouchableOpacity onPress={toggleModal}>
+            <View style={[styles.DoneWeekIcon, { flex: 2 }]}>
+              <Ionicons name="add-circle-outline" size={20} color="black" />
+            </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.ExerciseListStyle}>
           {exercises.map((item, index) => {
@@ -196,11 +208,38 @@ function WorkoutCard({ id, name, date, exercises }: WorkoutProps) {
           </TouchableOpacity>
         </View>
       </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isModalVisible}
+        onRequestClose={toggleModal}
+      >
+        <View style={styles.CenteredView}>
+          <InputExercise />
+          <View style={styles.ModalButton}>
+            <Button title="Cancel" onPress={toggleModal} />
+            <Button title="Confirm" onPress={toggleModal} />
+          </View>
+        </View>
+      </Modal>
     </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
+  CenteredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
+    marginTop: 22,
+    height: "100%",
+    width: "100%",
+    backgroundColor: "rgba(52, 52, 52, 0.9)",
+  },
+  ModalButton: {
+    flex: 1,
+  },
   WorkoutCardContainer: {
     backgroundColor: COLORS.cardGrey,
     width: CARD_WIDTH,
