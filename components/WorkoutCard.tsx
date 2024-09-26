@@ -83,6 +83,13 @@ function WorkoutCard({ id, name, date, exercises }: WorkoutProps) {
     });
   };
 
+  const handleDeleteExercise = (name: string) => {
+    setExerciseData((prevData) =>
+      prevData.filter((exercise) => exercise.name !== name)
+    );
+    addWorkoutHandler;
+  };
+
   console.log("exerciseData for workout: " + name, exerciseData);
 
   const addWorkoutHandler = () => {
@@ -198,7 +205,23 @@ function WorkoutCard({ id, name, date, exercises }: WorkoutProps) {
                       <Text style={styles.NormalTextStyle}>kgs</Text>
                     </View>
                   </View>
-                  <Text style={styles.SmallTextStyle}>{date?.toString()}</Text>
+                  <View style={styles.exerciseFooter}>
+                    <Text style={styles.SmallTextStyle}>
+                      {date?.toString()}
+                    </Text>
+                    {isExpanded && (
+                      <TouchableOpacity
+                        onPress={() => handleDeleteExercise(item.name)}
+                        style={{ flex: 1 }}
+                      >
+                        <Ionicons
+                          name="trash-bin"
+                          size={20}
+                          color={COLORS.lightGrey}
+                        />
+                      </TouchableOpacity>
+                    )}
+                  </View>
                 </View>
               )
             );
@@ -207,7 +230,7 @@ function WorkoutCard({ id, name, date, exercises }: WorkoutProps) {
             {!isExpanded && (
               <View style={styles.MoreContainer}>
                 <Text style={styles.MoreTextStyle}>
-                  +{exercises.length - 2} more
+                  +{exerciseData.length - 2} more
                 </Text>
                 <Ionicons
                   name="chevron-down"
@@ -321,6 +344,7 @@ const styles = StyleSheet.create({
     fontFamily: "inter",
     fontSize: 10,
     color: COLORS.seaBlue,
+    flex: 15,
   },
   MoreTextStyle: {
     fontFamily: "inter",
@@ -379,6 +403,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     overflow: "hidden",
     backgroundColor: COLORS.white,
+  },
+  exerciseFooter: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 0,
   },
   AddIcon: {
     height: 30,
