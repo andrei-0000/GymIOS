@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { produce } from "immer";
 import { persist, createJSONStorage } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ExerciseData, Workout, WorkoutData2 } from "../data/data";
+import { Exercise, ExerciseData, Workout, WorkoutData2 } from "../data/data";
 
 export const useStore = create(
   persist(
@@ -17,6 +17,12 @@ export const useStore = create(
         set(
           produce((state) => {
             state.UserWorkouts.push(userWorkout);
+          })
+        ),
+      addExercise: (userExercise: Exercise) =>
+        set(
+          produce((state) => {
+            state.ExerciseList.push(userExercise);
           })
         ),
     }),

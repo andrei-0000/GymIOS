@@ -2,13 +2,27 @@ import React, { useState } from "react";
 import { Text, View, TextInput, StyleSheet } from "react-native";
 import { COLORS } from "../theme/theme";
 
-const InputExercise = () => {
-  const [value, setValue] = useState(0);
+export interface InputProps {
+  setInput: any;
+}
+
+const InputExercise = ({ setInput }: InputProps) => {
+  const [value, setValue] = useState("");
+  function handleChange(text: string) {
+    setValue(text);
+    setInput(text);
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.HeaderTextStyle}> Input Exercise</Text>
       <View style={styles.input}>
-        <TextInput textAlign="center" placeholder="Enter Exercise Name" />
+        <TextInput
+          textAlign="center"
+          placeholder="Enter Exercise Name"
+          value={value}
+          onChangeText={(text) => handleChange(text)}
+        />
       </View>
     </View>
   );

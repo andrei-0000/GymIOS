@@ -10,6 +10,7 @@ import WorkoutCard from "../components/WorkoutCard";
 
 const HomeScreen = () => {
   const workoutList = useStore((state: any) => state.Workouts2);
+  const userExercises = useStore((state: any) => state.ExerciseList);
   const userWorkouts = useStore((state: any) => {
     const workoutList = state.UserWorkouts;
 
@@ -27,6 +28,7 @@ const HomeScreen = () => {
 
   console.log("user workout 1", userWorkouts.slice(-2)[0]);
   console.log("user workout 2", userWorkouts.slice(-2)[1]);
+  console.log("user exercises", userExercises);
 
   return (
     <View style={styles.ScreenContainer}>

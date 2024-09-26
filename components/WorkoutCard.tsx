@@ -43,6 +43,8 @@ function WorkoutCard({ id, name, date, exercises }: WorkoutProps) {
     }))
   );
 
+  const [exerciseName, setExerciseName] = useState("");
+
   const [isExpanded, setIsExpanded] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const toggleModal = () => {
@@ -64,6 +66,24 @@ function WorkoutCard({ id, name, date, exercises }: WorkoutProps) {
       )
     );
   };
+
+  const handleAddExercise = () => {
+    setExerciseData((prevData) => {
+      const newExercise = {
+        name: exerciseName,
+        description: "",
+        picture: undefined,
+        exercise_group: [],
+        type: "",
+        reps: 0,
+        sets: 0,
+        weight: 0,
+      };
+      return [...prevData, newExercise];
+    });
+  };
+
+  console.log("exerciseData for workout: " + name, exerciseData);
 
   const addWorkoutHandler = () => {
     return () => {
@@ -118,6 +138,11 @@ function WorkoutCard({ id, name, date, exercises }: WorkoutProps) {
           ))}
         </ScrollView>
         <View style={styles.HeaderContainer}>
+          <TouchableOpacity onPress={toggleModal}>
+            <View style={[styles.AddIcon, { flex: 2 }]}>
+              <Ionicons name="add-circle-outline" size={25} color="white" />
+            </View>
+          </TouchableOpacity>
           <Text style={[styles.HeaderTextStyle, { flex: 4 }]}>{name}</Text>
           <View style={styles.ConfirmButtonsStyle}>
             <TouchableOpacity onPress={addWorkoutHandler()}>
@@ -131,14 +156,9 @@ function WorkoutCard({ id, name, date, exercises }: WorkoutProps) {
               </View>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={toggleModal}>
-            <View style={[styles.DoneWeekIcon, { flex: 2 }]}>
-              <Ionicons name="add-circle-outline" size={20} color="black" />
-            </View>
-          </TouchableOpacity>
         </View>
         <View style={styles.ExerciseListStyle}>
-          {exercises.map((item, index) => {
+          {exerciseData.map((item, index) => {
             const exercise = exerciseData.find((ex) => ex.name === item.name);
             return (
               (isExpanded || index < 2) && (
@@ -215,10 +235,20 @@ function WorkoutCard({ id, name, date, exercises }: WorkoutProps) {
         onRequestClose={toggleModal}
       >
         <View style={styles.CenteredView}>
-          <InputExercise />
+          <InputExercise
+            setInput={(name: string) => {
+              setExerciseName(name);
+            }}
+          />
           <View style={styles.ModalButton}>
             <Button title="Cancel" onPress={toggleModal} />
-            <Button title="Confirm" onPress={toggleModal} />
+            <Button
+              title="Confirm"
+              onPress={() => {
+                handleAddExercise();
+                toggleModal();
+              }}
+            />
           </View>
         </View>
       </Modal>
@@ -349,6 +379,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     overflow: "hidden",
     backgroundColor: COLORS.white,
+  },
+  AddIcon: {
+    height: 30,
+    width: 50,
+    borderRadius: 30,
+    borderWidth: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
   },
   ConfirmButtonsStyle: {
     flexDirection: "row",
