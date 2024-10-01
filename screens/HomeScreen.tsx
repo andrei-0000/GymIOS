@@ -39,6 +39,7 @@ const HomeScreen = () => {
         <HeaderBar title="Hello, Ibai" />
         <WeekBar></WeekBar>
         <FlatList
+          scrollEnabled={false}
           showsHorizontalScrollIndicator={false}
           data={userWorkouts}
           contentContainerStyle={[
@@ -48,14 +49,12 @@ const HomeScreen = () => {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => {
             return (
-              // <TouchableOpacity>
               <WorkoutCard
                 id={item.id}
                 name={item.name}
                 exercises={item.exercises}
                 date={item.date}
               ></WorkoutCard>
-              //</ScrollView> </TouchableOpacity>
             );
           }}
         />

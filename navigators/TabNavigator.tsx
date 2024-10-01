@@ -52,7 +52,7 @@ const TabNavigator = () => {
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <Ionicons
-              name={focused ? "bookmark" : "bookmark-outline"}
+              name={focused ? "time" : "time-outline"}
               size={focused ? 25 : 20}
               color={focused ? COLORS.seaBlue : "white"}
             />
