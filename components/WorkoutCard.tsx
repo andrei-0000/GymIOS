@@ -87,12 +87,12 @@ function WorkoutCard({ id, name, date, exercises }: WorkoutProps) {
     setExerciseData((prevData) =>
       prevData.filter((exercise) => exercise.name !== name)
     );
-    addWorkoutHandler;
+    handleAddWorkout;
   };
 
   console.log("exerciseData for workout: " + name, exerciseData);
 
-  const addWorkoutHandler = () => {
+  const handleAddWorkout = () => {
     return () => {
       let userWorkout: Workout;
       userWorkout = {
@@ -152,7 +152,7 @@ function WorkoutCard({ id, name, date, exercises }: WorkoutProps) {
           </TouchableOpacity>
           <Text style={[styles.HeaderTextStyle, { flex: 4 }]}>{name}</Text>
           <View style={styles.ConfirmButtonsStyle}>
-            <TouchableOpacity onPress={addWorkoutHandler()}>
+            <TouchableOpacity onPress={handleAddWorkout()}>
               <View style={[styles.DoneWeekIcon, { flex: 2 }]}>
                 <Ionicons name="checkmark" size={20} color="black" />
               </View>

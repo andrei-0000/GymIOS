@@ -9,7 +9,6 @@ import WeekBar from "../components/WeekBar";
 import WorkoutCard from "../components/WorkoutCard";
 
 const HomeScreen = () => {
-  const workoutList = useStore((state: any) => state.Workouts2);
   const userExercises = useStore((state: any) => state.ExerciseList);
   const userWorkouts = useStore((state: any) => {
     const workoutList = state.UserWorkouts;
