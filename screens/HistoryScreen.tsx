@@ -5,6 +5,7 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { StatusBar } from "expo-status-bar";
 import { COLORS } from "../theme/theme";
 import HeaderBar from "../components/HeaderBar";
+import WorkoutHistoryCard from "../components/WorkoutHistoryCard";
 
 const HistoryScreen = () => {
   const workoutHistory = useStore((state: any) => state.UserWorkouts);
@@ -18,11 +19,16 @@ const HistoryScreen = () => {
         contentContainerStyle={styles.ScrollViewFlex}
       >
         <View style={[styles.ScrollViewInner, { marginBottom: tabBarHeight }]}>
+          <HeaderBar title="Workout History" />
+
           <View style={styles.ItemContainer}>
-            <HeaderBar title="Workout History" />
             {workoutHistory.length > 0 ? (
               <View style={styles.ListItemContainer}>
-                <Text style={styles.NormalTextStyle}>Workouts available</Text>
+                {workoutHistory
+                  .toReversed()
+                  .map((workout: any, index: number) => (
+                    <WorkoutHistoryCard workout={workout} />
+                  ))}
               </View>
             ) : (
               <Text>No workouts yet</Text>
@@ -58,8 +64,8 @@ const styles = StyleSheet.create({
     fontWeight: "400",
   },
   ListItemContainer: {
-    paddingHorizontal: 15,
-    gap: 30,
+    paddingHorizontal: 0,
+    gap: 0,
   },
 });
 
