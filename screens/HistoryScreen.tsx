@@ -16,18 +16,18 @@ const HistoryScreen = () => {
       <StatusBar backgroundColor={COLORS.black} style="light" />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.ScrollViewFlex}
+        contentContainerStyle={[styles.ScrollViewFlex]}
+        style={{ marginBottom: tabBarHeight }}
       >
-        <View style={[styles.ScrollViewInner, { marginBottom: tabBarHeight }]}>
-          <HeaderBar title="Workout History" />
-
+        <HeaderBar title="Workout History" />
+        <View style={styles.ScrollViewInner}>
           <View style={styles.ItemContainer}>
             {workoutHistory.length > 0 ? (
               <View style={styles.ListItemContainer}>
                 {workoutHistory
                   .toReversed()
                   .map((workout: any, index: number) => (
-                    <WorkoutHistoryCard workout={workout} />
+                    <WorkoutHistoryCard key={index} workout={workout} />
                   ))}
               </View>
             ) : (

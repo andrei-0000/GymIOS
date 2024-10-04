@@ -29,7 +29,7 @@ export interface WorkoutProps {
   exercises: Exercise[];
 }
 
-function WorkoutCard({ id, name, date, exercises }: WorkoutProps) {
+function WorkoutCard({ id, name, date: dateString, exercises }: WorkoutProps) {
   const [exerciseData, setExerciseData] = useState(
     exercises.map((exercise) => ({
       name: exercise.name,
@@ -42,6 +42,8 @@ function WorkoutCard({ id, name, date, exercises }: WorkoutProps) {
       weight: exercise.weight,
     }))
   );
+
+  const date = dateString ? new Date(dateString) : new Date();
 
   const [exerciseName, setExerciseName] = useState("");
 
@@ -207,7 +209,14 @@ function WorkoutCard({ id, name, date, exercises }: WorkoutProps) {
                   </View>
                   <View style={styles.exerciseFooter}>
                     <Text style={styles.SmallTextStyle}>
-                      {date?.toString()}
+                      {!isNaN(date.getTime())
+                        ? date.toLocaleDateString("en-gb", {
+                            weekday: "short",
+                            month: "long",
+                            day: "numeric",
+                            year: "numeric",
+                          })
+                        : "Invalid Date"}
                     </Text>
                     {isExpanded && (
                       <TouchableOpacity

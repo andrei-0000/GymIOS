@@ -10,13 +10,23 @@ interface WorkoutHistoryCardProps {
 }
 
 function WorkoutHistoryCard({ workout }: WorkoutHistoryCardProps) {
-  const { id, name, exercises, date } = workout;
+  const { id, name, exercises, date: dateString } = workout;
+  const date = dateString ? new Date(dateString) : new Date();
 
   return (
     <View style={styles.card}>
       <View style={styles.HeaderContainer}>
         <Text style={styles.HeaderTextStyle}>{name}</Text>
-        <Text style={styles.SmallTextStyle}>{date?.toString()}</Text>
+        <Text style={styles.SmallTextStyle}>
+          {!isNaN(date.getTime())
+            ? date.toLocaleDateString("en-gb", {
+                weekday: "short",
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })
+            : "Invalid Date"}
+        </Text>
       </View>
       <Text numberOfLines={1} style={styles.NormalTextStyle}>
         {exercises?.map((exercise) => exercise.name).join(" | ")}
@@ -61,9 +71,9 @@ const styles = StyleSheet.create({
   },
   SmallTextStyle: {
     fontFamily: "inter",
-    fontSize: 10,
+    fontSize: 12,
     color: COLORS.seaBlue,
-    flex: 2,
+    flex: 3,
   },
   MoreTextStyle: {
     fontFamily: "inter",
