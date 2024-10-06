@@ -13,6 +13,7 @@ export const useStore = create(
       FavoritesList: [],
       UserWorkouts: WorkoutData2,
       ExercisesHistoryList: [],
+      FocusedWorkout: null,
       addUserWorkout: (userWorkout: Workout) =>
         set(
           produce((state) => {
@@ -23,6 +24,12 @@ export const useStore = create(
         set(
           produce((state) => {
             state.ExerciseList.push(userExercise);
+          })
+        ),
+      setFocusedWorkout: (workout: Workout) =>
+        set(
+          produce((state) => {
+            state.FocusedWorkout = workout;
           })
         ),
     }),

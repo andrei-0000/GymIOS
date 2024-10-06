@@ -1,4 +1,10 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React from "react";
 import { useStore } from "../store/store";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
@@ -7,10 +13,11 @@ import { COLORS } from "../theme/theme";
 import HeaderBar from "../components/HeaderBar";
 import WorkoutHistoryCard from "../components/WorkoutHistoryCard";
 
-const HistoryScreen = () => {
+const HistoryScreen = ({ navigation }: any) => {
   const workoutHistory = useStore((state: any) => state.UserWorkouts);
   const tabBarHeight = useBottomTabBarHeight();
-  console.log("workout history", workoutHistory);
+  const setFocusedWorkout = useStore((state: any) => state.setFocusedWorkout);
+
   return (
     <View style={styles.ScreenContainer}>
       <StatusBar backgroundColor={COLORS.black} style="light" />
@@ -20,14 +27,22 @@ const HistoryScreen = () => {
         style={{ marginBottom: tabBarHeight }}
       >
         <HeaderBar title="Workout History" />
-        <View style={styles.ScrollViewInner}>
+        <View style={[styles.ScrollViewInner, { marginTop: 30 }]}>
           <View style={styles.ItemContainer}>
             {workoutHistory.length > 0 ? (
               <View style={styles.ListItemContainer}>
                 {workoutHistory
                   .toReversed()
                   .map((workout: any, index: number) => (
-                    <WorkoutHistoryCard key={index} workout={workout} />
+                    <TouchableOpacity
+                      key={index}
+                      onPress={() => {
+                        setFocusedWorkout(workout);
+                        navigation.push("WorkoutDetails");
+                      }}
+                    >
+                      <WorkoutHistoryCard key={index} workout={workout} />
+                    </TouchableOpacity>
                   ))}
               </View>
             ) : (

@@ -1,14 +1,13 @@
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./screens/HomeScreen";
-import TrainingScreen from "./screens/TrainingScreen";
 import HistoryScreen from "./screens/HistoryScreen";
 import TabNavigator from "./navigators/TabNavigator";
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import WorkoutDetailsScreen from "./screens/WorkoutDetailsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -47,8 +46,8 @@ export default function App() {
           options={{ animation: "slide_from_bottom" }}
         ></Stack.Screen>
         <Stack.Screen
-          name="Training"
-          component={TrainingScreen}
+          name="WorkoutDetails"
+          component={WorkoutDetailsScreen}
           options={{ animation: "slide_from_bottom" }}
         ></Stack.Screen>
       </Stack.Navigator>
