@@ -32,6 +32,12 @@ export const useStore = create(
             state.FocusedWorkout = workout;
           })
         ),
+      clearWorkoutHistory: () =>
+        set(
+          produce((state) => {
+            state.UserWorkouts = WorkoutData2;
+          })
+        ),
     }),
     {
       name: "gym-ios",

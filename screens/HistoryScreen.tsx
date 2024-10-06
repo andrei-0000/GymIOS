@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Alert,
 } from "react-native";
 import React from "react";
 import { useStore } from "../store/store";
@@ -12,11 +13,34 @@ import { StatusBar } from "expo-status-bar";
 import { COLORS } from "../theme/theme";
 import HeaderBar from "../components/HeaderBar";
 import WorkoutHistoryCard from "../components/WorkoutHistoryCard";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const HistoryScreen = ({ navigation }: any) => {
   const workoutHistory = useStore((state: any) => state.UserWorkouts);
+  const clearWorkoutHistory = useStore(
+    (state: any) => state.clearWorkoutHistory
+  );
   const tabBarHeight = useBottomTabBarHeight();
   const setFocusedWorkout = useStore((state: any) => state.setFocusedWorkout);
+  const confirmClearHistory = () => {
+    Alert.alert(
+      "Warning",
+      "Are you sure you want to clear your workout history?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: () => {
+            clearWorkoutHistory();
+          },
+        },
+      ]
+    );
+  };
 
   return (
     <View style={styles.ScreenContainer}>
@@ -27,7 +51,16 @@ const HistoryScreen = ({ navigation }: any) => {
         style={{ marginBottom: tabBarHeight }}
       >
         <HeaderBar title="Workout History" />
-        <View style={[styles.ScrollViewInner, { marginTop: 30 }]}>
+        <View style={[styles.ScrollViewInner, { marginTop: 35 }]}>
+          <TouchableOpacity
+            onPress={() => {
+              confirmClearHistory();
+            }}
+          >
+            <View style={[styles.ClearIcon, { flex: 2 }]}>
+              <Ionicons name="close-circle-outline" size={30} color="white" />
+            </View>
+          </TouchableOpacity>
           <View style={styles.ItemContainer}>
             {workoutHistory.length > 0 ? (
               <View style={styles.ListItemContainer}>
@@ -79,6 +112,11 @@ const styles = StyleSheet.create({
     fontWeight: "400",
   },
   ListItemContainer: {
+    paddingHorizontal: 0,
+    gap: 0,
+  },
+  ClearIcon: {
+    alignSelf: "flex-end",
     paddingHorizontal: 0,
     gap: 0,
   },
