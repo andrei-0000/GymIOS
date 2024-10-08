@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
   Alert,
+  Dimensions,
 } from "react-native";
 import React from "react";
 import { useStore } from "../store/store";
@@ -14,6 +15,9 @@ import { COLORS } from "../theme/theme";
 import HeaderBar from "../components/HeaderBar";
 import WorkoutHistoryCard from "../components/WorkoutHistoryCard";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { Calendar, CalendarList, Agenda } from "react-native-calendars";
+
+const CALENDAR_HEIGHT = Dimensions.get("window").height * 0.4;
 
 const HistoryScreen = ({ navigation }: any) => {
   const workoutHistory = useStore((state: any) => state.UserWorkouts);
@@ -42,6 +46,35 @@ const HistoryScreen = ({ navigation }: any) => {
     );
   };
 
+  const workedOutDates: any = {};
+  workoutHistory.forEach((workout: any) => {
+    const date = new Date(workout.date);
+    const splitDate =
+      date.getFullYear() +
+      "-" +
+      String(date.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(date.getDate()).padStart(2, "0");
+    if (!isNaN(date.getTime()) && !workedOutDates.hasOwnProperty(splitDate)) {
+      workedOutDates[splitDate] = {
+        selected: true,
+        selectedColor: COLORS.brightGreen,
+      };
+    }
+  });
+
+  const currentDate = () => {
+    const date = new Date();
+    const splitDate =
+      date.getFullYear() +
+      "-" +
+      String(date.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(date.getDate() + 1).padStart(2, "0");
+    console.log("now date: ", splitDate);
+    return splitDate;
+  };
+
   return (
     <View style={styles.ScreenContainer}>
       <StatusBar backgroundColor={COLORS.black} style="light" />
@@ -52,13 +85,32 @@ const HistoryScreen = ({ navigation }: any) => {
       >
         <HeaderBar title="Workout History" />
         <View style={[styles.ScrollViewInner, { marginTop: 35 }]}>
+          <Calendar
+            enableSwipeMonths={true}
+            style={styles.CalendarStyle}
+            theme={{
+              backgroundColor: COLORS.black,
+              calendarBackground: COLORS.black,
+              textSectionTitleColor: COLORS.lightGrey,
+              selectedDayTextColor: COLORS.black,
+              dayTextColor: COLORS.white,
+              arrowColor: COLORS.white,
+              monthTextColor: COLORS.white,
+              textMonthFontWeight: "bold",
+              textMonthFontSize: 18,
+            }}
+            onDayPress={(day: any) => {
+              console.log("selected day", day);
+            }}
+            markedDates={workedOutDates}
+          />
           <TouchableOpacity
             onPress={() => {
               confirmClearHistory();
             }}
           >
             <View style={[styles.ClearIcon, { flex: 2 }]}>
-              <Ionicons name="close-circle-outline" size={30} color="white" />
+              <Ionicons name="close-circle-outline" size={40} color="white" />
             </View>
           </TouchableOpacity>
           <View style={styles.ItemContainer}>
@@ -116,9 +168,16 @@ const styles = StyleSheet.create({
     gap: 0,
   },
   ClearIcon: {
-    alignSelf: "flex-end",
+    alignSelf: "center",
     paddingHorizontal: 0,
     gap: 0,
+  },
+  CalendarStyle: {
+    marginTop: 5,
+    borderWidth: 0,
+    borderRadius: 20,
+    borderColor: "white",
+    height: CALENDAR_HEIGHT - 25,
   },
 });
 
