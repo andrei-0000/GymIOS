@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Dimensions, View, Text, StyleSheet } from "react-native";
 import { COLORS } from "../theme/theme";
 import { Workout } from "../data/data";
+import axios from "axios";
 
 const CARD_WIDTH = Dimensions.get("window").width * 0.98;
 
@@ -12,6 +13,56 @@ interface WorkoutHistoryCardProps {
 function WorkoutHistoryCard({ workout }: WorkoutHistoryCardProps) {
   const { id, name, exercises, date: dateString } = workout;
   const date = dateString ? new Date(dateString) : new Date();
+  const [calories, setCalories] = useState(0);
+
+  useEffect(() => {
+    const fetchCalories = async () => {
+      const calories = await getCalories();
+      setCalories(Number(calories));
+    };
+    fetchCalories();
+  }, []);
+
+  const mapExerciseList = () => {
+    const exerciseResult = workout.exercises
+      ?.map(
+        (exercise: any) =>
+          exercise.name +
+          " for " +
+          exercise.reps +
+          " reps and " +
+          exercise.sets +
+          " sets with " +
+          exercise.weight +
+          " kgs as weight"
+      )
+      .join(" , ");
+
+    return exerciseResult;
+  };
+
+  const getCalories = async () => {
+    const exerciseList = mapExerciseList();
+    try {
+      const response = await axios.post(
+        "https://api.openai.com/v1/completions",
+        {
+          prompt: `Calculate total calories spent doing the following exercise list: ${exerciseList} only output result as number of kcal`,
+          max_tokens: 100,
+          model: "gpt-4",
+        },
+        {
+          headers: {
+            Authorization: `Bearer $$$`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return response.data.choices[0].text;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <View style={styles.card}>
@@ -31,7 +82,7 @@ function WorkoutHistoryCard({ workout }: WorkoutHistoryCardProps) {
       <Text numberOfLines={1} style={styles.NormalTextStyle}>
         {exercises?.map((exercise) => exercise.name).join(" | ")}
       </Text>
-      <Text style={styles.MoreTextStyle}>465kcal</Text>
+      <Text style={styles.MoreTextStyle}> {calories}</Text>
     </View>
   );
 }
