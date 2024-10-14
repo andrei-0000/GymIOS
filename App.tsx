@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import WorkoutDetailsScreen from "./screens/WorkoutDetailsScreen";
+import awsGetSecret from "./external/aws/SecretsManager";
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,14 @@ export default function App() {
       SplashScreen.hideAsync();
     }
   }, [loaded, error]);
+
+  useEffect(() => {
+    const fetchApiKey = async () => {
+      const key = await awsGetSecret();
+      console.log("here is the key" + key);
+    };
+    fetchApiKey();
+  }, []);
 
   if (!loaded && !error) {
     return null;

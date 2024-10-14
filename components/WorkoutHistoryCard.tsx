@@ -22,7 +22,7 @@ function WorkoutHistoryCard({ workout }: WorkoutHistoryCardProps) {
       setCalories(Number(calories));
     };
     fetchCalories();
-  }, []);
+  }, [workout]);
 
   const mapExerciseList = () => {
     const exerciseResult = workout.exercises
